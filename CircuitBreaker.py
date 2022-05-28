@@ -35,24 +35,29 @@ class CircuitBreaker:
         logging.debug(f"Changed state from {prev_state} to {self.state}")
 
     def handle_closed_state(self, url):
+        logging.debug("in handle_closed_state ..")
         response = requests.get(url)
         if response.status_code == http.HTTPStatus.OK:
             self.update_last_attempt_timestamp()
             self.set_state(StateChoices.CLOSED)
             return 0
         if 500 <= response.status_code < 600:
+            logging.debug("url request failed .. ")
             self.update_last_attempt_timestamp()
             self._failed_attempt_count += 1
             if self._failed_attempt_count >= self.threshold:
+                logging.error("threshold has been breached")
+                logging.error("Circuit Breaker triggered .. OPEN")
                 self.set_state(StateChoices.OPEN)
 
     def handle_open_state(self, url):
         current_timestamp = datetime.utcnow().timestamp()
         if self.last_attempt_timestamp + self.delay >= current_timestamp:
-            logging.info("Retry after some time")
-
+            logging.error("Circuit Breaker is Open .. Retry after some time")
             return 0
         else:
+            logging.debug("Sufficient Delay ...")
+            logging.debug("Circuit Breaker has been CLOSED")
             self.set_state(StateChoices.CLOSED)
             self._failed_attempt_count = 0
             self.update_last_attempt_timestamp()
@@ -64,6 +69,8 @@ class CircuitBreaker:
             if 500 <= response.status_code < 600:
                 self.update_last_attempt_timestamp()
                 self._failed_attempt_count += 1
+                logging.error("Threshold has been breached")
+                logging.error("Circuit Breaker triggered .. OPEN")
                 if self._failed_attempt_count >= self.threshold:
                     self.set_state(StateChoices.OPEN)
 

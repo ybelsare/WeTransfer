@@ -9,7 +9,7 @@ app = Flask(__name__)
 @app.route('/success')
 def success_endpoint():
     return {
-               "msg": "Call to this endpoint was a smashing success."
+               "msg": "Success.."
            }, 200
 
 
@@ -20,7 +20,7 @@ def faulty_endpoint():
         time.sleep(2)
 
     return {
-               "msg": "I will fail."
+               "msg": "Failure.."
            }, 500
 
 
@@ -29,11 +29,11 @@ def fail_randomly_endpoint():
     r = random.randint(0, 1)
     if r == 0:
         return {
-                   "msg": "Success msg"
+                   "msg": "Success..."
                }, 200
 
     return {
-               "msg": "I will fail (sometimes)."
+               "msg": "Failure..."
            }, 500
 
 
