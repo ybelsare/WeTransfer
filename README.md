@@ -65,3 +65,19 @@
     20:48:26,457 ERROR: Circuit Breaker triggered .. OPEN
     20:48:26,457 DEBUG: Changed state from closed to open
     20:48:26,457 ERROR: Circuit Breaker is Open .. Retry after some time
+    
+# Output of pytest
+    PS C:\Users\446891\PycharmProjects\WeTransfer> pytest -vv .\test_suite.py
+    ================================================================= test session starts =================================================================
+    platform win32 -- Python 3.9.4, pytest-7.1.2, pluggy-1.0.0 -- c:\users\446891\appdata\local\programs\python\python39\python.exe
+    cachedir: .pytest_cache                                                                                                        
+    rootdir: C:\Users\446891\PycharmProjects\WeTransfer                                                                            
+    collected 5 items
+
+    test_suite.py::test_all_success PASSED                                                                                                           [ 20%]
+    test_suite.py::test_failures_success_scenario1 PASSED                                                                                            [ 40%]
+    test_suite.py::test_all_failures PASSED                                                                                                          [ 60%]
+    test_suite.py::test_mix PASSED                                                                                                                   [ 80%]
+    test_suite.py::test_delay PASSED                                                                                                                 [100%]
+
+    ============================================================ 5 passed in 396.89s (0:06:36) ============================================================ 
